@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Mod08.View.UserPage"
+             Title="UserPage">
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <Label 
+                Text="Data Accessing using API"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Button Text="Load Users" Command="{Binding LoadUserCommand}"/>
+
+
+            <!-- Dropdown for selecting course -->
+            <!--<Picker x:Name="CoursePicker" 
+                    ItemsSource="{Binding Courses}" 
+                    SelectedItem="{Binding SelectedCourse}" 
+                    Title="Select a Course" />-->
+
+
+            <!-- FOR VIEWING THE LIST OF USERS -->
+            <ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Padding="10">
+                                <Label Text="{Binding Firstname}" FontAttributes="Bold"/>
+                                <Label Text=" | " FontAttributes="Bold"/>
+                                <Label Text="{Binding Lastname}" FontAttributes="Bold"/>
+                                <Label Text=" | " FontAttributes="Bold"/>
+                                <Label Text="{Binding Email}"/>
+                                <Label Text=" | " FontAttributes="Bold"/>
+                                <Label Text="{Binding ContactNo}" FontAttributes="Bold"/>
+                                <Label Text=" | " FontAttributes="Bold"/>
+                                <Label Text="{Binding Course}" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Label Text="ADD USER" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+            <Label Text="Firstname"/>
+            <Entry Placeholder="Enter Firstname" Text="{Binding FirstNameInput}"/>
+
+            <Label Text="Lastname"/>
+            <Entry Placeholder="Enter Lastname" Text="{Binding LastNameInput}"/>
+
+            <Label Text="Email"/>
+            <Entry Placeholder="Enter Email" Text="{Binding EmailInput}"/>
+
+            <Label Text="ContactNo"/>
+            <Entry Placeholder="Enter Contact No" Text="{Binding ContactNoInput}"/>
+
+            <!--<Label Text="Course"/>
+            <Entry Placeholder="Enter Course No" Text="{Binding CourseInput}"/>-->
+            <Picker Title="Select a Course"
+                    ItemsSource="{Binding Courses}"
+                    SelectedItem="{Binding SelectedCourse}" />
+
+
+
+
+            <!-- BUTTONS -->
+            <Button Text="Add User" Command="{Binding AddUserCommand}"/>
+            <Button Text="Delete User" Command="{Binding DeleteUserCommand}"/>
+            <Button Text="Update User" Command="{Binding UpdateUserCommand}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
