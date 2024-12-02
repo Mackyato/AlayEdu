@@ -18,6 +18,7 @@ namespace Mod08.ViewModel
 
         // Observable collection to store the list of users
         public ObservableCollection<User> Users { get; set; }
+        private List<User> _allUsers; //FILTER
 
         // Observable collection for courses
         public ObservableCollection<string> Courses { get; set; }
@@ -32,6 +33,7 @@ namespace Mod08.ViewModel
                 {
                     _selectedCourse = value;
                     OnPropertyChanged();
+                    FilterUsersByCourse(); //FILTER
                 }
             }
         }
@@ -124,6 +126,21 @@ namespace Mod08.ViewModel
             }
         }
 
+
+        //private string _fullname;
+        //public string FullName
+        //{
+        //    get => _fullname;
+        //    set
+        //    {
+        //        if (_fullname != value)
+        //        {
+        //            _fullname = value;
+        //            OnPropertyChanged(nameof(FullName));
+        //        }
+        //    }
+        //}
+
         // Commands for add, update, and delete
         public ICommand LoadUserCommand { get; }
         public ICommand AddUserCommand { get; }
@@ -134,8 +151,9 @@ namespace Mod08.ViewModel
         public UserViewModel()
         {
             _userService = new UserService();
-            Courses = new ObservableCollection<string> { "BSIT", "BSCS", "BMMA" }; // Predefined list of courses
             Users = new ObservableCollection<User>();
+            _allUsers = new List<User>(); //FILTER
+            Courses = new ObservableCollection<string> { "BSIT", "BSCS", "BMMA" }; // Predefined list of courses
 
             // Initialize Commands
             AddUserCommand = new Command(async () => await AddUser());
@@ -146,19 +164,32 @@ namespace Mod08.ViewModel
 
 
 
-       // FOR LOADING THE STUDENTS
+        // FOR LOADING THE STUDENTS
+        //private async Task LoadUsers()
+        //{
+        //    var users = await _userService.GetUsersAsync();
+        //    Users.Clear();
+        //    foreach (var user in users)
+        //    {
+        //        Users.Add(user);
+        //    }
+        //}
         private async Task LoadUsers()
         {
             var users = await _userService.GetUsersAsync();
+            _allUsers.Clear();
+            _allUsers.AddRange(users);
+
+            // Initially populate the Users collection with all users
             Users.Clear();
-            foreach (var user in users)
+            foreach (var user in _allUsers)
             {
                 Users.Add(user);
             }
         }
 
         // ADDING STUDENT
-         private async Task AddUser()
+        private async Task AddUser()
         {
             if (!string.IsNullOrWhiteSpace(FirstNameInput) &&
                 !string.IsNullOrWhiteSpace(LastNameInput) &&
@@ -192,29 +223,32 @@ namespace Mod08.ViewModel
         // Method to update an existing user
         private async Task UpdateUser()
         {
-            if (SelectedUser == null) //{
-                SelectedUser.Firstname = FirstNameInput;
-                SelectedUser.Lastname = LastNameInput;
-                SelectedUser.Email = EmailInput;
-                SelectedUser.ContactNo = ContactNoInput;
-                SelectedUser.Course = SelectedCourse;
+            if (SelectedUser == null)
+            {
+                Console.WriteLine("No student selected for update.");
+                return;  // Exit if no user is selected
+            }
 
-                var result = await _userService.UpdateUserAsync(SelectedUser);
-                //if (result.Equals("Success", StringComparison.OrdinalIgnoreCase))
-               // {
-                    await LoadUsers();
-                 //   ClearInput();
-                 //   Console.WriteLine("Student updated successfully.");
-             ///  }
-              //  else
-              //  {
-//Console.WriteLine($"Failed to update student: {result}");
-             //   }
-            //}
-            //else
-            //{
-            //    Console.WriteLine("No student selected for update.");
-            //}
+            // Now it is safe to update the properties
+            SelectedUser.Firstname = FirstNameInput;
+            SelectedUser.Lastname = LastNameInput;
+            SelectedUser.Email = EmailInput;
+            SelectedUser.ContactNo = ContactNoInput;
+            SelectedUser.Course = SelectedCourse;
+
+            var result = await _userService.UpdateUserAsync(SelectedUser);
+
+            if (result.Equals("Success", StringComparison.OrdinalIgnoreCase))
+            {
+                await LoadUsers();
+                ClearInput();
+                Console.WriteLine("Student updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to update student: {result}");
+            }
+            ClearInput();
         }
 
         // Method to delete a user
@@ -247,6 +281,19 @@ namespace Mod08.ViewModel
                 EmailInput = SelectedUser.Email;
                 ContactNoInput = SelectedUser.ContactNo;
                 CourseInput = SelectedCourse;
+            }
+        }
+
+        private void FilterUsersByCourse()
+        {
+            Users.Clear();
+            var filteredUsers = string.IsNullOrEmpty(SelectedCourse) || SelectedCourse == "All"
+                ? _allUsers
+                : _allUsers.Where(u => u.Course == SelectedCourse).ToList();
+
+            foreach (var user in filteredUsers)
+            {
+                Users.Add(user);
             }
         }
 

@@ -2,72 +2,155 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mod08.View.UserPage"
-             Title="UserPage">
-    <ScrollView>
-        <VerticalStackLayout Padding="10">
-            <Label 
-                Text="Data Accessing using API"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+             Title="Manage Users">
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <!-- Page Header -->
+                <Label 
+                    Text="Student Management"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    TextColor="#2B579A" />
 
-            <Button Text="Load Users" Command="{Binding LoadUserCommand}"/>
+                <!-- Instructions -->
+                <Label 
+                    Text="Manage student records with ease. Load users, add new ones, or update existing data."
+                    FontSize="14"
+                    TextColor="#666"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center" />
 
+                <!-- Load Users Button -->
+                <Button 
+                    Text="Load Users"
+                    Command="{Binding LoadUserCommand}"
+                    BackgroundColor="#2B579A"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HorizontalOptions="Fill" />
 
-            <!-- Dropdown for selecting course -->
-            <!--<Picker x:Name="CoursePicker" 
-                    ItemsSource="{Binding Courses}" 
-                    SelectedItem="{Binding SelectedCourse}" 
-                    Title="Select a Course" />-->
-
-
-            <!-- FOR VIEWING THE LIST OF USERS -->
-            <ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal" Padding="10">
-                                <Label Text="{Binding Firstname}" FontAttributes="Bold"/>
-                                <Label Text=" | " FontAttributes="Bold"/>
-                                <Label Text="{Binding Lastname}" FontAttributes="Bold"/>
-                                <Label Text=" | " FontAttributes="Bold"/>
-                                <Label Text="{Binding Email}"/>
-                                <Label Text=" | " FontAttributes="Bold"/>
-                                <Label Text="{Binding ContactNo}" FontAttributes="Bold"/>
-                                <Label Text=" | " FontAttributes="Bold"/>
-                                <Label Text="{Binding Course}" FontAttributes="Bold"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
-            <Label Text="ADD USER" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
-
-            <Label Text="Firstname"/>
-            <Entry Placeholder="Enter Firstname" Text="{Binding FirstNameInput}"/>
-
-            <Label Text="Lastname"/>
-            <Entry Placeholder="Enter Lastname" Text="{Binding LastNameInput}"/>
-
-            <Label Text="Email"/>
-            <Entry Placeholder="Enter Email" Text="{Binding EmailInput}"/>
-
-            <Label Text="ContactNo"/>
-            <Entry Placeholder="Enter Contact No" Text="{Binding ContactNoInput}"/>
-
-            <!--<Label Text="Course"/>
-            <Entry Placeholder="Enter Course No" Text="{Binding CourseInput}"/>-->
-            <Picker Title="Select a Course"
+                <!-- Dropdown for Selecting Course -->
+                <Picker 
+                    Title="Filter by Course"
                     ItemsSource="{Binding Courses}"
-                    SelectedItem="{Binding SelectedCourse}" />
+                    SelectedItem="{Binding SelectedCourse}" 
+                    TitleColor="#2B579A" />
 
+                <!-- Users List -->
+                <Label 
+                    Text="Registered Users"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    TextColor="#2B579A" />
+                <CollectionView 
+                    ItemsSource="{Binding Users}" 
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedUser}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame 
+                                Padding="10"
+                                Margin="5"
+                                BackgroundColor="#F3F4F6"
+                                CornerRadius="10"
+                                HasShadow="True">
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Firstname}" 
+                                           FontAttributes="Bold"
+                                           FontSize="14"
+                                           TextColor="#333"/>
+                                    <Label Text="{Binding Lastname}"
+                                           FontAttributes="Bold" 
+                                           FontSize="16"
+                                           TextColor="#2B579A"/>
+                                    <!--<Label 
+                                        Text="{Binding FullName}" 
+                                        FontAttributes="Bold" 
+                                        FontSize="16"
+                                        TextColor="#2B579A" />-->
+                                    <Label 
+                                        Text="{Binding Email}" 
+                                        FontSize="14"
+                                        TextColor="#333" />
+                                    <Label 
+                                        Text="{Binding ContactNo}" 
+                                        FontSize="14"
+                                        TextColor="#333" />
+                                    <Label 
+                                        Text="{Binding Course}" 
+                                        FontSize="14"
+                                        TextColor="#333" />
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
+                <!-- Add User Section -->
+                <Label 
+                    Text="Add or Update User" 
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    TextColor="#2B579A" />
+                <Grid ColumnSpacing="10" RowSpacing="10">
+                    <!-- Firstname -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
+                    <Label Text="Firstname:" Grid.Row="0" Grid.Column="0" />
+                    <Entry Placeholder="Enter Firstname" Text="{Binding FirstNameInput}" Grid.Row="0" Grid.Column="1" />
 
-            <!-- BUTTONS -->
-            <Button Text="Add User" Command="{Binding AddUserCommand}"/>
-            <Button Text="Delete User" Command="{Binding DeleteUserCommand}"/>
-            <Button Text="Update User" Command="{Binding UpdateUserCommand}"/>
-        </VerticalStackLayout>
-    </ScrollView>
+                    <Label Text="Lastname:" Grid.Row="1" Grid.Column="0" />
+                    <Entry Placeholder="Enter Lastname" Text="{Binding LasttNameInput}" Grid.Row="1" Grid.Column="1" />
+
+                    <Label Text="Email:" Grid.Row="2" Grid.Column="0" />
+                    <Entry Placeholder="Enter Email" Text="{Binding EmailInput}" Grid.Row="2" Grid.Column="1" />
+
+                    <Label Text="Contact No:" Grid.Row="3" Grid.Column="0" />
+                    <Entry Placeholder="Enter Contact No" Text="{Binding ContactNoInput}" Grid.Row="3" Grid.Column="1" />
+
+                    <Label Text="Course:" Grid.Row="4" Grid.Column="0" />
+                    <Picker 
+                        Title="Select a Course"
+                        ItemsSource="{Binding Courses}" 
+                        SelectedItem="{Binding SelectedCourse}" 
+                        Grid.Row="4" Grid.Column="1" />
+                </Grid>
+
+                <!-- Action Buttons -->
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Button 
+                        Text="Add User" 
+                        Command="{Binding AddUserCommand}"
+                        BackgroundColor="#2B579A" 
+                        TextColor="White"
+                        CornerRadius="10" />
+                    <Button 
+                        Text="Update User" 
+                        Command="{Binding UpdateUserCommand}"
+                        BackgroundColor="#2B579A" 
+                        TextColor="White"
+                        CornerRadius="10" />
+                    <Button 
+                        Text="Delete User" 
+                        Command="{Binding DeleteUserCommand}"
+                        BackgroundColor="#D9534F"
+                        TextColor="White"
+                        CornerRadius="10" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

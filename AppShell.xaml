@@ -9,6 +9,11 @@
     Title="Mod08">
 
     <ShellContent
+      Title="Login"
+      ContentTemplate="{DataTemplate views:LoginPage}"
+      Route="LoginPage" />
+    
+    <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
@@ -18,10 +23,5 @@
         ContentTemplate="{DataTemplate views:UserPage}"
         Route="UserPage" />
 
-
-    <!--<ShellContent
-      Title="lLogin"
-      ContentTemplate="{DataTemplate views:LoginPage}"
-      Route="LoginPage" />-->
 
 </Shell>
