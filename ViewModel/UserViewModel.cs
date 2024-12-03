@@ -1,4 +1,4 @@
-﻿using Mod08.Services;
+﻿﻿using Mod08.Services;
 using Mod08.Model;
 using System;
 using System.Collections.Generic;
@@ -202,34 +202,45 @@ namespace Mod08.ViewModel
         // ADDING STUDENT
         private async Task AddUser()
         {
-            if (!string.IsNullOrWhiteSpace(FirstNameInput) &&
-                !string.IsNullOrWhiteSpace(LastNameInput) &&
-                !string.IsNullOrWhiteSpace(EmailInput) &&
-                !string.IsNullOrWhiteSpace(LastNameInput) &&
-                !string.IsNullOrWhiteSpace(ContactNoInput) &&
-                !string.IsNullOrWhiteSpace(CourseInput))
+            // Validate input, no need for selected user
+            if (string.IsNullOrWhiteSpace(FirstNameInput) ||
+                string.IsNullOrWhiteSpace(LastNameInput) ||
+                string.IsNullOrWhiteSpace(EmailInput) ||
+                string.IsNullOrWhiteSpace(ContactNoInput) ||
+                string.IsNullOrWhiteSpace(SelectedCourse))  // Check for course input
             {
+                Console.WriteLine("Input validation failed: All fields must be filled.");
+                return; // Exit early if validation fails
+            }
+
+            try
+            {
+                // Create a new user object
                 var newUser = new User
                 {
                     Firstname = FirstNameInput,
                     Lastname = LastNameInput,
                     Email = EmailInput,
                     ContactNo = ContactNoInput,
-                    Course = SelectedCourse // Add selected course to the new user
+                    Course = SelectedCourse
                 };
+
+                // Call the service to add the user (e.g., API or DB)
                 var result = await _userService.AddUserAsync(newUser);
 
                 if (result.Equals("Success", StringComparison.OrdinalIgnoreCase))
                 {
+                    // Reload users from the service (e.g., refresh UI)
                     await LoadUsers();
                     ClearInput();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Input validation failed: All fields must be filled.");
+                Console.WriteLine($"Error adding user: {ex.Message}");
             }
         }
+
 
         // Method to update an existing user
         private async Task UpdateUser()
@@ -279,7 +290,7 @@ namespace Mod08.ViewModel
             LastNameInput = string.Empty;
             EmailInput = string.Empty;
             ContactNoInput = string.Empty;
-            CourseInput = string.Empty;
+            CourseInput = null;
         }
 
         // Method to update entry fields when a user is selected
