@@ -21,7 +21,7 @@
                     TextColor="#666"
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center" />
-
+                <Entry Placeholder="Enter Firstname" Text="{Binding SearchText}" Grid.Row="0" Grid.Column="1" />
                 <!-- Load Users Button -->
                 <Button 
                     Text="Load Users"
@@ -35,7 +35,7 @@
                 <Picker 
                     Title="Filter by Course"
                     ItemsSource="{Binding Courses}"
-                    SelectedItem="{Binding SelectedCourse}" 
+                    SelectedItem="{Binding FilterCourse}" 
                     TitleColor="#2B579A" />
 
                 <!-- Users List -->
@@ -113,7 +113,7 @@
                     <Entry Placeholder="Enter Firstname" Text="{Binding FirstNameInput}" Grid.Row="0" Grid.Column="1" />
 
                     <Label Text="Lastname:" Grid.Row="1" Grid.Column="0" />
-                    <Entry Placeholder="Enter Lastname" Text="{Binding LasttNameInput}" Grid.Row="1" Grid.Column="1" />
+                    <Entry Placeholder="Enter Lastname" Text="{Binding LastNameInput}" Grid.Row="1" Grid.Column="1" />
 
                     <Label Text="Email:" Grid.Row="2" Grid.Column="0" />
                     <Entry Placeholder="Enter Email" Text="{Binding EmailInput}" Grid.Row="2" Grid.Column="1" />

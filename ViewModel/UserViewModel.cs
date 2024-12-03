@@ -9,34 +9,21 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace Mod08.ViewModel
 {
     public class UserViewModel : INotifyPropertyChanged
     {
         private readonly UserService _userService;
-
+    
         // Observable collection to store the list of users
         public ObservableCollection<User> Users { get; set; }
         private List<User> _allUsers; //FILTER
 
         // Observable collection for courses
         public ObservableCollection<string> Courses { get; set; }
-
-        private string _selectedCourse;
-        public string SelectedCourse
-        {
-            get => _selectedCourse;
-            set
-            {
-                if (_selectedCourse != value)
-                {
-                    _selectedCourse = value;
-                    OnPropertyChanged();
-                    FilterUsersByCourse(); //FILTER
-                }
-            }
-        }
 
         // Input fields for user data
         private string _firstNameInput;
@@ -53,6 +40,7 @@ namespace Mod08.ViewModel
             }
         }
 
+        // LASTNAME 
         private string _lastNameInput;
         public string LastNameInput
         {
@@ -67,6 +55,7 @@ namespace Mod08.ViewModel
             }
         }
 
+        //EMAIL
         private string _emailInput;
         public string EmailInput
         {
@@ -81,6 +70,7 @@ namespace Mod08.ViewModel
             }
         }
 
+        //CONTACT NO
         private string _contactNoInput;
         public string ContactNoInput
         {
@@ -95,6 +85,7 @@ namespace Mod08.ViewModel
             }
         }
 
+        //COURSE
         private string _courseInput;
         public string CourseInput
         {
@@ -109,8 +100,7 @@ namespace Mod08.ViewModel
             }
         }
 
-
-
+        // SELECTING USER
         private User _selectedUser;
         public User SelectedUser
         {
@@ -126,20 +116,51 @@ namespace Mod08.ViewModel
             }
         }
 
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                if (_searchText != value)
+                {
+                    _searchText = value;
+                    OnPropertyChanged();
+                    SearchUsers();
+                }
+            }
+        }
 
-        //private string _fullname;
-        //public string FullName
-        //{
-        //    get => _fullname;
-        //    set
-        //    {
-        //        if (_fullname != value)
-        //        {
-        //            _fullname = value;
-        //            OnPropertyChanged(nameof(FullName));
-        //        }
-        //    }
-        //}
+        // SELECTING COURSE
+        private string _selectedCourse;
+        public string SelectedCourse
+        {
+            get => _selectedCourse;
+            set
+            {
+                if (_selectedCourse != value)
+                {
+                    _selectedCourse = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _filterCourse;
+
+        public string FilterCourse
+        {
+            get => _filterCourse;
+            set
+            {
+                if (_filterCourse != value)
+                {
+                    _filterCourse = value;
+                    OnPropertyChanged();
+                    FilterUsersByCourse(); //FILTER
+
+                }
+            }
+        }
 
         // Commands for add, update, and delete
         public ICommand LoadUserCommand { get; }
@@ -162,23 +183,13 @@ namespace Mod08.ViewModel
             LoadUserCommand = new Command(async () => await LoadUsers());
         }
 
-
-
         // FOR LOADING THE STUDENTS
-        //private async Task LoadUsers()
-        //{
-        //    var users = await _userService.GetUsersAsync();
-        //    Users.Clear();
-        //    foreach (var user in users)
-        //    {
-        //        Users.Add(user);
-        //    }
-        //}
         private async Task LoadUsers()
         {
             var users = await _userService.GetUsersAsync();
             _allUsers.Clear();
             _allUsers.AddRange(users);
+
 
             // Initially populate the Users collection with all users
             Users.Clear();
@@ -195,7 +206,7 @@ namespace Mod08.ViewModel
                 !string.IsNullOrWhiteSpace(LastNameInput) &&
                 !string.IsNullOrWhiteSpace(EmailInput) &&
                 !string.IsNullOrWhiteSpace(LastNameInput) &&
-                !string.IsNullOrWhiteSpace(ContactNoInput)&&
+                !string.IsNullOrWhiteSpace(ContactNoInput) &&
                 !string.IsNullOrWhiteSpace(CourseInput))
             {
                 var newUser = new User
@@ -268,7 +279,7 @@ namespace Mod08.ViewModel
             LastNameInput = string.Empty;
             EmailInput = string.Empty;
             ContactNoInput = string.Empty;
-            CourseInput = null;
+            CourseInput = string.Empty;
         }
 
         // Method to update entry fields when a user is selected
@@ -287,13 +298,40 @@ namespace Mod08.ViewModel
         private void FilterUsersByCourse()
         {
             Users.Clear();
-            var filteredUsers = string.IsNullOrEmpty(SelectedCourse) || SelectedCourse == "All"
+            var filteredUsers = string.IsNullOrEmpty(FilterCourse) || FilterCourse == "All"
                 ? _allUsers
-                : _allUsers.Where(u => u.Course == SelectedCourse).ToList();
+                : _allUsers.Where(u => u.Course == FilterCourse).ToList();
 
-            foreach (var user in filteredUsers)
+            foreach (var filter in filteredUsers)
             {
-                Users.Add(user);
+                Users.Add(filter);
+            }
+        }
+
+        // Method to perform the search functionality
+        private void SearchUsers()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Users.Clear();
+                foreach (var search in _allUsers)
+                {
+                    Users.Add(search);
+                }
+            }
+            else
+            {
+                var searchResult = _allUsers.Where(u =>
+                    u.Firstname.StartsWith(SearchText, StringComparison.OrdinalIgnoreCase) || // Search by First Name
+                    u.Lastname.StartsWith(SearchText, StringComparison.OrdinalIgnoreCase) ||   // Search by Last Name
+                    (u.Firstname + " " + u.Lastname).StartsWith(SearchText, StringComparison.OrdinalIgnoreCase) // Full Name match
+                ).ToList();
+
+                Users.Clear();
+                foreach (var search in searchResult)
+                {
+                    Users.Add(search);
+                }
             }
         }
 

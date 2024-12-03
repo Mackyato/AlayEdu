@@ -1,93 +1,94 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Mod08.ViewModel"
              x:Class="Mod08.View.LoginPage"
-             Title="Login"
-             BackgroundColor="#F3F4F6">
+             Title="Login">
 
-    <!-- Background Image -->
-    <!--<ContentPage.Background>
-        --><!--<Image ImageSource="background_education.jpg" Aspect="AspectFill" />--><!--
-    </ContentPage.Background>-->
+    <!-- Gradient Background -->
+    <ContentPage.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="#4F46E5" Offset="0.0" />
+            <GradientStop Color="#22C55E" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
-    <ContentPage.Content>
-        <VerticalStackLayout 
-            Padding="30" 
-            Spacing="20" 
-            HorizontalOptions="Center" 
-            VerticalOptions="Center">
+    <!-- Binding Context -->
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel />
+    </ContentPage.BindingContext>
 
-            <!-- Logo -->
-            <Image 
-                Source="alayedu_logo.png" 
-                HeightRequest="120" 
-                WidthRequest="120" 
-                HorizontalOptions="Center" />
+    <!-- Main Layout -->
+    <VerticalStackLayout Padding="30" 
+                         Spacing="20" 
+                         HorizontalOptions="Center" 
+                         VerticalOptions="Center">
 
-            <!-- Welcome Text -->
-            <Label 
-                Text="Welcome to AlayEdu" 
-                FontSize="24" 
-                FontAttributes="Bold" 
-                HorizontalOptions="Center" 
-                TextColor="#2B579A" />
+        <!-- Logo -->
+        <Image Source="alayedu_logo.png" 
+               HeightRequest="100" 
+               WidthRequest="100" 
+               HorizontalOptions="Center" />
 
-            <Label 
-                Text="Please log in to continue managing your students efficiently."
-                FontSize="14" 
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"
-                TextColor="#4A4A4A" />
+        <!-- Welcome Header -->
+        <Label Text="Welcome to AlayEdu" 
+               FontSize="28" 
+               FontAttributes="Bold" 
+               TextColor="White" 
+               HorizontalOptions="Center" />
 
-            <!-- Username Entry -->
-            <Entry 
-                Placeholder="Enter Username" 
-                PlaceholderColor="#9E9E9E" 
-                FontSize="16" 
-                TextColor="#2B579A"
-                BackgroundColor="#FFFFFF"
-                HeightRequest="50"
-                HorizontalOptions="Fill" />
+        <!-- Subtitle -->
+        <Label Text="Manage your students with ease and efficiency." 
+               FontSize="14" 
+               TextColor="#E5E5E5" 
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center" />
+
+        <!-- Username Entry -->
+        <Entry Placeholder="Enter Username" 
+               Text="{Binding Username}" 
+               PlaceholderColor="#D1D5DB" 
+               TextColor="White"
+               BackgroundColor="#9CA3AF20"
+               FontSize="16"
+               HeightRequest="50"
+               WidthRequest="300"
+               HorizontalOptions="Center" />
 
             <!-- Password Entry -->
-            <Entry 
-                Placeholder="Enter Password" 
-                PlaceholderColor="#9E9E9E"
-                IsPassword="True"
+            <Entry Placeholder="Enter Password" 
+               Text="{Binding Password}" 
+               IsPassword="True" 
+               PlaceholderColor="#D1D5DB" 
+               TextColor="White"
+               BackgroundColor="#9CA3AF20" 
                 FontSize="16"
-                TextColor="#2B579A"
-                BackgroundColor="#FFFFFF"
-                HeightRequest="50"
-                HorizontalOptions="Fill" />
+               HeightRequest="50"
+               WidthRequest="300"
+               HorizontalOptions="Center" />
 
-            <!-- Login Button -->
-            <Button 
-                Text="Log In"
-                FontAttributes="Bold"
+                <!-- Login Button -->
+            <Button Text="Log In"
+                Command="{Binding LoginCommand}" 
                 FontSize="16"
+                FontAttributes="Bold"
                 TextColor="White"
-                BackgroundColor="#2B579A"
+                BackgroundColor="#2563EB"
                 HeightRequest="50"
-                CornerRadius="10"
-                HorizontalOptions="Fill"
-                Clicked="OnNavigateToUserPageClicked" />
+                WidthRequest="300"
+                HorizontalOptions="Center" />
 
-            <!-- Navigation Button -->
-            <Button 
-                Text="Go to UserPage"
-                FontAttributes="Bold"
-                FontSize="14"
-                BackgroundColor="Transparent"
-                TextColor="#2B579A"
-                HorizontalOptions="Center"
-                Clicked="OnNavigateToUserPageClicked" />
-
-            <!-- Footer -->
-            <Label 
-                Text="Powered by AlayEdu"
+            <Label Text="Powered by AlayEdu"
                 FontSize="12"
                 HorizontalOptions="Center"
-                TextColor="#9E9E9E" />
-        </VerticalStackLayout>
-    </ContentPage.Content>
+                TextColor="White" />
+
+        <!-- Feedback Message -->
+            <Label Text="{Binding LoginMessage}" 
+               TextColor="#DC2626" 
+               FontSize="14"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center" />
+
+    </VerticalStackLayout>
 </ContentPage>

@@ -13,12 +13,9 @@ namespace Mod08.Model
         public string Lastname { get; set; }
         public string Email { get; set; }
         public string ContactNo { get; set; }
-        public string Course { get; set; } // Add this property
-        //public string FullNames => $"{Firstname} {Lastname}";
+        public string Course { get; set; } // Add this property;
+
     }
-    //public class LoginResponse
-    //{
-    //    public string Message { get; set; }
-    //}
+    
 }
 

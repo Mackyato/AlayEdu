@@ -30,9 +30,9 @@ namespace Mod08.Services
         }
 
         //ADD USER
-        public async Task<string>AddUserAsync(User user)
+        public async Task<string> AddUserAsync(User user)
         {
-            var response = 
+            var response =
                 await _httpClient.PostAsJsonAsync($"{BaseUrl}add_user.php", user);
             var result = await response.Content.ReadAsStringAsync();
             return result;
@@ -56,4 +56,5 @@ namespace Mod08.Services
             return result;
         }
     }
+    
 }
