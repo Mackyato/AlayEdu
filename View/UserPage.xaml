@@ -3,6 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mod08.View.UserPage"
              Title="Manage Users">
+
+
+    <!-- Define Toolbar Items -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Text="Navigation Page"
+            Priority="0" 
+            Order="Primary"
+            Command="{Binding BackCommand}" 
+            IconImageSource="back_icon.png" />
+        <ToolbarItem 
+             Text="Logout"
+             Priority="0" 
+             Order="Primary"
+             Command="{Binding LogoutCommand}" 
+             IconImageSource="back_icon.png" />
+        <!-- Optional Icon -->
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <ScrollView>
             <VerticalStackLayout Padding="20" Spacing="20">
@@ -57,14 +76,11 @@
                                 CornerRadius="10"
                                 HasShadow="True">
                                 <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Firstname}" 
-                                           FontAttributes="Bold"
-                                           FontSize="14"
-                                           TextColor="#333"/>
-                                    <Label Text="{Binding Lastname}"
-                                           FontAttributes="Bold" 
-                                           FontSize="16"
-                                           TextColor="#2B579A"/>
+                                    <HorizontalStackLayout Spacing="10">
+                                        <!--<Label Text="{Binding FullName}" FontAttributes="Bold" FontSize="16" TextColor="#2B579A" />-->
+
+                                        <Label Text="{Binding FullName}" FontSize="14" FontAttributes="Bold" TextColor="#333" />
+                                    </HorizontalStackLayout>
                                     <!--<Label 
                                         Text="{Binding FullName}" 
                                         FontAttributes="Bold" 
@@ -149,7 +165,16 @@
                         BackgroundColor="#D9534F"
                         TextColor="White"
                         CornerRadius="10" />
+
+                    
                 </HorizontalStackLayout>
+                <Button 
+                    Text="Back" 
+                    Command="{Binding BackCommand}"
+                    BackgroundColor="#2B579A" 
+                    TextColor="White"
+                    CornerRadius="10" />
+                
             </VerticalStackLayout>
         </ScrollView>
     </ContentPage.Content>

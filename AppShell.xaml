@@ -8,11 +8,12 @@
     Shell.FlyoutBehavior="Disabled"
     Title="Mod08">
 
+
     <ShellContent
-      Title="Login"
-      ContentTemplate="{DataTemplate views:LoginPage}"
-      Route="LoginPage" />
-    
+         Title="Login"
+         ContentTemplate="{DataTemplate views:LoginPage}"
+         Route="LoginPage" />
+
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
@@ -22,6 +23,27 @@
         Title="Home"
         ContentTemplate="{DataTemplate views:UserPage}"
         Route="UserPage" />
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate views:NavigationPage}"
+        Route="NavigationPage" />
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate views:AttendancePage}"
+        Route="AttendancePage" />
+    
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate views:PaymentPage}"
+        Route="PaymentPage" />
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate views:GradePage}"
+        Route="GradePage" />
+
+
 
 
 </Shell>

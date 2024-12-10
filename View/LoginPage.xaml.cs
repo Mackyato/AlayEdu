@@ -7,6 +7,7 @@ public partial class LoginPage : ContentPage
     public LoginPage()
 	{
 		InitializeComponent();
+        BindingContext = new LoginViewModel();
     }
     //private async void OnLoginButtonClicked(object sender, EventArgs e)
     //{

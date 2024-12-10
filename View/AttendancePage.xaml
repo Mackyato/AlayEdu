@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Mod08.ViewModel"
+             xmlns:converters="clr-namespace:Mod08.Converters"
+             x:Class="Mod08.View.AttendancePage"
+             x:Name="AttendancePageReference" 
+            Title="Attendance Management">
+
+    <!-- Registering the Converter -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:UserToIdConverter x:Key="UserToIdConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Set the BindingContext to UserViewModel -->
+    <ContentPage.BindingContext>
+        <vm:UserViewModel />
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Text="Navigation Page"
+            Priority="0" 
+            Order="Primary"
+            Command="{Binding BackCommand}" 
+            IconImageSource="back_icon.png" />
+        <ToolbarItem 
+             Text="Logout"
+             Priority="0" 
+             Order="Primary"
+             Command="{Binding LogoutCommand}" 
+             IconImageSource="back_icon.png" />
+        <!-- Optional Icon -->
+    </ContentPage.ToolbarItems>
+    
+    
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header Section -->
+            <Label 
+                Text="Welcome to Attendance Page"
+                FontSize="26"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                TextColor="#2B579A" />
+
+            <Label 
+                Text="Manage student attendance with ease."
+                FontSize="16"
+                TextColor="#666"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center" />
+
+            <!-- Search and Filter Section -->
+            <VerticalStackLayout Spacing="15">
+                <Entry 
+                    Placeholder="Search by First Name or Last Name" 
+                    Text="{Binding SearchText}" 
+                    FontSize="16"
+                    BackgroundColor="#F0F0F0"
+                    Margin="0,5,0,5" />
+
+                <Picker 
+                    Title="Filter by Course"
+                    ItemsSource="{Binding Courses}"
+                    SelectedItem="{Binding FilterCourse}" 
+                    TitleColor="#2B579A"
+                    BackgroundColor="#F0F0F0" />
+            </VerticalStackLayout>
+
+            <!-- Load Users Button -->
+            <Button 
+                Text="Load Users"
+                Command="{Binding LoadUserCommand}"
+                BackgroundColor="#2B579A"
+                TextColor="White"
+                FontSize="18"
+                CornerRadius="10"
+                HeightRequest="50"
+                HorizontalOptions="Fill" />
+
+            <!-- Registered Users Section -->
+            <Label 
+                Text="Registered Users"
+                FontAttributes="Bold"
+                FontSize="20"
+                TextColor="#2B579A"
+                Margin="0,10,0,5" />
+
+            <!-- CollectionView to Display Users -->
+            <CollectionView 
+                ItemsSource="{Binding Users}" 
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame 
+                            Padding="10"
+                            Margin="5"
+                            BackgroundColor="#F3F4F6"
+                            CornerRadius="10"
+                            HasShadow="True">
+                            <VerticalStackLayout>
+
+                                <!-- User Information -->
+                                <HorizontalStackLayout Spacing="10">
+                                    <!--<Label Text="{Binding FullName}" FontAttributes="Bold" FontSize="16" TextColor="#2B579A" />-->
+
+                                    <Label Text="{Binding FullName}" FontSize="14" FontAttributes="Bold" TextColor="#333" />
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding Email}" FontSize="14" TextColor="#666" />
+                                <Label Text="{Binding ContactNo}" FontSize="14" TextColor="#666" />
+                                <Label Text="{Binding Course}" FontSize="14" TextColor="#666" />
+
+                                <!-- Attendance Counts -->
+                                <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
+                                    <Label Text="Present Count:" FontAttributes="Bold" />
+                                    <Label Text="{Binding PresentCount}" TextColor="Green" />
+                                    <Label Text="Absent Count:" FontAttributes="Bold" />
+                                    <Label Text="{Binding AbsentCount}" TextColor="Red" />
+                                </HorizontalStackLayout>
+
+                                <!-- Attendance Buttons -->
+                                <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
+                                    <Button Text="Present"
+                                            Command="{Binding BindingContext.MarkAttendanceCommand, Source={x:Reference AttendancePageReference}}"
+                                            CommandParameter="{Binding ., Converter={StaticResource UserToIdConverter}, ConverterParameter='Present'}"
+                                            BackgroundColor="Green"
+                                            TextColor="White" 
+                                            CornerRadius="5" />
+
+                                    <Button Text="Absent"
+                                            Command="{Binding BindingContext.MarkAttendanceCommand, Source={x:Reference AttendancePageReference}}"
+                                            CommandParameter="{Binding ., Converter={StaticResource UserToIdConverter}, ConverterParameter='Absent'}"
+                                            BackgroundColor="Red"
+                                            TextColor="White" 
+                                            CornerRadius="5" />
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Back Button -->
+            <!--<Button 
+                Text="Back"
+                BackgroundColor="#D9534F"
+                TextColor="White"
+                FontSize="18"
+                CornerRadius="10"
+                HeightRequest="50"
+                WidthRequest="200"
+                HorizontalOptions="Center"
+                Command="{Binding BackCommand}" />-->
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

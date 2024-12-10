@@ -26,8 +26,8 @@
 
         <!-- Logo -->
         <Image Source="alayedu_logo.png" 
-               HeightRequest="100" 
-               WidthRequest="100" 
+               HeightRequest="300" 
+               WidthRequest="300" 
                HorizontalOptions="Center" />
 
         <!-- Welcome Header -->
