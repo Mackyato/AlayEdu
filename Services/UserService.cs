@@ -136,6 +136,27 @@ namespace Mod08.Services
             }
         }
 
+        public async Task<List<Grades>> GetGradesEntriesAsync(int StudentID)
+        {
+            try
+            {
+                Console.WriteLine($"Sending request for StudentID: {StudentID}"); // Debug log
+                var response = await _httpClient.GetAsync($"{BaseUrl}get_grades.php?StudentID={StudentID}"); // Updated query parameter to 'StudentID'
+
+                response.EnsureSuccessStatusCode();
+
+                var grades = await response.Content.ReadFromJsonAsync<List<Grades>>();
+                return grades ?? new List<Grades>(); // Ensure it returns an empty list if null
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching grades: {ex.Message}");
+                return new List<Grades>(); // Return empty list in case of error
+            }
+        }
+
+
+
 
 
 

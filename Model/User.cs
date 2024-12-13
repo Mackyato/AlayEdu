@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+
 namespace Mod08.Model
 {
     public class User : INotifyPropertyChanged
@@ -62,6 +63,21 @@ namespace Mod08.Model
             }
         }
 
+
+        private List<Grades> _grades;
+        public List<Grades> Grades
+        {
+            get => _grades;
+            set
+            {
+                if (_grades != value)
+                {
+                    _grades = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -81,5 +97,17 @@ namespace Mod08.Model
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public decimal OldAccounts { get; set; }
+    }
+
+    public class Grades
+    {
+        public int GradeID { get; set; }
+        public int StudentID { get; set; }
+        public string SubjectName { get; set; }
+        public string Term { get; set; }
+        public string SchoolYear { get; set; }
+        public decimal Grade { get; set; }
+        public string Remarks { get; set; }
+        public string DateRecorded { get; set; }
     }
 }

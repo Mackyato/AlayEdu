@@ -153,7 +153,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="*,*,*,*,*"
-                              Padding="5">
+                  Padding="5">
                             <Label Text="{Binding DatePaid, StringFormat='{0:MM/dd/yyyy}'}" HorizontalTextAlignment="Center" />
                             <Label Text="{Binding Particulars}" HorizontalTextAlignment="Center" Grid.Column="1" />
                             <Label Text="{Binding Credit, StringFormat='{0:C}'}" HorizontalTextAlignment="Center" Grid.Column="2" />
@@ -163,6 +163,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
 
             <!-- Back Button --><!--
             <Button Text="Back"
