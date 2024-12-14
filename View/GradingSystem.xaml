@@ -1,0 +1,163 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Mod08.ViewModel"
+             x:Class="Mod08.View.GradingSystem"
+             Title="Grading System">
+
+    <ContentPage.BindingContext>
+        <vm:UserViewModel />
+    </ContentPage.BindingContext>
+
+    <!-- Toolbar -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Back"
+                 Command="{Binding BackCommand}" />
+        <ToolbarItem Text="Logout"
+                 Command="{Binding LogoutCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Page Header -->
+            <Label Text="Student Academic"
+               FontSize="22"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#2B579A" />
+
+            <!-- Load Users Button -->
+            <Button Text="Load Users"
+                Command="{Binding LoadUserCommand}"
+                BackgroundColor="#2B579A"
+                TextColor="White"
+                FontSize="16"
+                HeightRequest="50" />
+
+            <!-- Search and Filter -->
+            <Grid ColumnDefinitions="*,*" Margin="0,5,0,5">
+                <Picker Title="Filter by Course"
+                    ItemsSource="{Binding Courses}"
+        SelectedItem="{Binding FilterCourse}"
+        FontSize="14"
+        BackgroundColor="#E0E0E0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Fill"
+                    Grid.Column="0" />
+                <Entry Placeholder="Search User"
+                   Text="{Binding SearchText}"
+                   FontSize="14"
+                   BackgroundColor="#F3F4F6"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Fill"
+                   HeightRequest="40"
+                   Grid.Column="1" />
+            </Grid>
+
+
+            <!-- Users List -->
+            <CollectionView ItemsSource="{Binding Users}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#F3F4F6"
+                           Padding="10"
+                           Margin="5">
+                            <StackLayout Spacing="5">
+                                <Label Text="{Binding FullName}" FontSize="14" FontAttributes="Bold" TextColor="#333" />
+                                <!--<Label Text="{Binding Lastname}" FontSize="14" TextColor="#555" />-->
+                                <Label Text="{Binding Course}" FontSize="12" TextColor="#666" />
+                                <Button Text="Load Grades"
+                                    Command="{Binding BindingContext.LoadGradesCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                    CommandParameter="{Binding ID}"
+                                    BackgroundColor="#4CAF50"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    Margin="0,5,0,0" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <VerticalStackLayout Spacing="10">
+                <!-- Selected User Details -->
+                <Label  Text="Selected User Grades"
+                  FontAttributes="Bold"
+                  FontSize="18"
+                  TextColor="#2B579A"
+                  Margin="0,20,0,10" />
+                <!-- Name Section -->
+                <Grid ColumnDefinitions="*,*"
+                  BackgroundColor="#E0E0E0"
+                  Padding="10"
+                  Margin="0,0,0,10">
+                    <Label Text="Name:" 
+                       FontAttributes="Bold" 
+                       TextColor="#555" 
+                       Grid.Column="0" 
+                       VerticalOptions="Center" />
+                    <Label Text="{Binding SelectedUser.FullName}" 
+                       Grid.Column="1" 
+                       VerticalOptions="Center" />
+                </Grid>
+
+                <!-- Course Section -->
+                <Grid ColumnDefinitions="*,*"
+                  BackgroundColor="#E0E0E0"
+                  Padding="10"
+                  Margin="0,0,0,10">
+                    <Label Text="Course:" 
+                       FontAttributes="Bold" 
+                       TextColor="#555" 
+                       Grid.Column="0" 
+                       VerticalOptions="Center" />
+                    <Label Text="{Binding SelectedUser.Course}" 
+                       Grid.Column="1" 
+                       VerticalOptions="Center" />
+                </Grid>
+
+            </VerticalStackLayout>
+
+
+            <!-- Ledger Table Headers -->
+            <Grid ColumnDefinitions="*,*,*,*,*,*"
+              BackgroundColor="#D3D3D3"
+              Padding="5"
+              Margin="0,20,0,5">
+                <Label Text="Subject Name" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="0"/>
+                <Label Text="Term" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="1" />
+                <Label Text="School Year" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="2" />
+                <Label Text="Grades" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="3" />
+                <Label Text="Remarks" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="4" />
+                <Label Text="Date Recorded" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="5" />
+            </Grid>
+
+            <!-- Grades Entries -->
+            <CollectionView ItemsSource="{Binding GradesEntries}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*,*,*,*,*,*">
+                            <Label Text="{Binding SubjectName}" HorizontalTextAlignment="Center" Grid.Column="0" />
+                            <Label Text="{Binding Term}" HorizontalTextAlignment="Center" Grid.Column="1" />
+                            <Label Text="{Binding SchoolYear}" HorizontalTextAlignment="Center" Grid.Column="2" />
+                            <Label Text="{Binding Grade}" HorizontalTextAlignment="Center" Grid.Column="3" />
+                            <Label Text="{Binding Remarks}" HorizontalTextAlignment="Center" Grid.Column="4" />
+                            <Label Text="{Binding DateRecorded}" HorizontalTextAlignment="Center" Grid.Column="5" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Back Button -->
+            <!--
+        <Button Text="Back"
+                BackgroundColor="#40444B"
+                TextColor="White"
+                FontSize="16"
+                HeightRequest="50"
+                HorizontalOptions="Center"
+                Command="{Binding BackCommand}" />-->
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

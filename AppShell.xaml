@@ -10,7 +10,7 @@
 
 
     <ShellContent
-         Title="Login"
+         Title=""
          ContentTemplate="{DataTemplate views:LoginPage}"
          Route="LoginPage" />
 
@@ -20,29 +20,33 @@
         Route="MainPage" />
 
     <ShellContent
-        Title="Home"
+        Title=""
         ContentTemplate="{DataTemplate views:UserPage}"
         Route="UserPage" />
     <ShellContent
-        Title="Home"
+        Title=""
         ContentTemplate="{DataTemplate views:NavigationPage}"
         Route="NavigationPage" />
 
     <ShellContent
-        Title="Home"
+        Title=""
         ContentTemplate="{DataTemplate views:AttendancePage}"
         Route="AttendancePage" />
     
     <ShellContent
-        Title="Home"
+        Title=""
         ContentTemplate="{DataTemplate views:PaymentPage}"
         Route="PaymentPage" />
 
     <ShellContent
-        Title="Home"
+        Title=""
         ContentTemplate="{DataTemplate views:GradePage}"
         Route="GradePage" />
 
+    <ShellContent
+        Title=""
+        ContentTemplate="{DataTemplate views:GradingSystem}"
+        Route="GradingSystem" />
 
 
 

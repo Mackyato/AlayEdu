@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Mod08.ViewModel"
              x:Class="Mod08.View.NavigationPage"
-             Title="NavigationPage"
              BackgroundColor="#2C2F33">
     <!-- Darker background for better contrast -->
 
@@ -63,7 +62,7 @@
             Command="{Binding PaymentCommand}" />
 
             <!-- Grades Page Button -->
-            <Button 
+            <!--<Button 
             Text="Grades Page"
             BackgroundColor="#40444B"
             TextColor="White"
@@ -72,7 +71,19 @@
             HeightRequest="50"
             WidthRequest="250"
             HorizontalOptions="Center"
-            Command="{Binding GradeCommand}" />
+            Command="{Binding GradeCommand}" />-->
+
+
+        <Button 
+ Text="Grades Page"
+ BackgroundColor="#40444B"
+ TextColor="White"
+ FontSize="18"
+ CornerRadius="20"
+ HeightRequest="50"
+ WidthRequest="250"
+ HorizontalOptions="Center"
+ Command="{Binding GradingSystemCommand}" />
 
         <!-- Grades Page Button -->
         <Button 

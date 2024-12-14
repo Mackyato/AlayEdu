@@ -22,6 +22,7 @@ namespace Mod08.ViewModel
         private List<User> _allUsers; // For filtering or other operations
         public ObservableCollection<string> Courses { get; set; } //For courses
         public ObservableCollection<Ledger> LedgerEntries { get; set; } //Ledger 
+        public ObservableCollection<Grades> GradesEntries { get; set; }
         // Input fields for user data
         private string _firstNameInput;
         public string FirstNameInput
@@ -169,9 +170,11 @@ namespace Mod08.ViewModel
                 if (SetProperty(ref _isBusy, value))
                 {
                     ((Command)LoadLedgerCommand).ChangeCanExecute();
+                    ((Command)LoadGradesCommand).ChangeCanExecute();
                 }
             }
         }
+
 
 
 
@@ -246,6 +249,8 @@ namespace Mod08.ViewModel
         public ICommand MarkAttendanceCommand { get; }
 
         public ICommand LoadLedgerCommand { get; }
+        public ICommand LoadGradesCommand { get; }
+
 
         public UserViewModel()
         {
@@ -254,6 +259,7 @@ namespace Mod08.ViewModel
             _allUsers = new List<User>(); // For filtering
             Courses = new ObservableCollection<string> { "All", "BSIT", "BSCS", "BMMA" }; // Added "All" for filter
             LedgerEntries = new ObservableCollection<Ledger>();//Ledger
+            GradesEntries = new ObservableCollection<Grades>();
 
             // Initialize Commands
             AddUserCommand = new Command(async () => await AddUser());
@@ -267,6 +273,7 @@ namespace Mod08.ViewModel
 
             //LoadLedgerCommand = new Command(async (param) => await LoadLedger((int)param));
             LoadLedgerCommand = new Command<int>(async (userId) => await LoadLedger(userId));
+            LoadGradesCommand = new Command<int>(async (studentID) => await LoadGrades(studentID));
         }
 
         // FOR LOADING THE STUDENTS
@@ -397,7 +404,7 @@ namespace Mod08.ViewModel
         {
             Users.Clear();
             var filteredUsers = string.IsNullOrEmpty(FilterCourse) || FilterCourse == "All"
-                ? _allUsers
+                ? _allUsers 
                 : _allUsers.Where(u => u.Course == FilterCourse).ToList();
 
             foreach (var filter in filteredUsers)
@@ -464,6 +471,43 @@ namespace Mod08.ViewModel
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading ledger: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task LoadGrades(int studentID)
+        {
+            if (IsBusy) return;
+            IsBusy = true;
+
+            try
+            {
+                // Fetch the user details from the existing Users collection
+                SelectedUser = Users.FirstOrDefault(user => user.ID == studentID);
+
+                if (SelectedUser != null)
+                {
+                    // Fetch grades data
+                    var gradesData = await _userService.GetGradesEntriesAsync(studentID);
+
+                    // Clear and populate the ObservableCollection for grades entries
+                    GradesEntries.Clear();
+                    foreach (var grades in gradesData)
+                    {
+                        GradesEntries.Add(grades);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("User not found for the provided userId.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading grades: {ex.Message}");
             }
             finally
             {

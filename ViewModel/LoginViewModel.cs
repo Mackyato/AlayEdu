@@ -91,6 +91,9 @@ namespace Mod08.ViewModel
         public ICommand BackCommand { get; }
         public ICommand LogoutCommand { get; }
 
+
+        public ICommand GradingSystemCommand { get; }
+
         public LoginViewModel()
         {
             LoginCommand = new Command(async () => await ExecuteLogin());
@@ -100,6 +103,8 @@ namespace Mod08.ViewModel
             ManageStudentsCommand = new Command(async () => await ManageStudents());
             BackCommand = new Command(async () => await Back());
             LogoutCommand = new Command(async () => await Logout());
+
+            GradingSystemCommand = new Command(async () => await Grading());
         }
 
         private async Task ExecuteLogin()
@@ -153,6 +158,11 @@ namespace Mod08.ViewModel
             await Shell.Current.GoToAsync("//GradePage"); // Navigate on success
         }
 
+
+        private async Task Grading()
+        {
+            await Shell.Current.GoToAsync("//GradingSystem");
+        }
 
         // BACK METHOD 
         private async Task Back()

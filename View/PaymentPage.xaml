@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Mod08.ViewModel"
-             x:Class="Mod08.View.PaymentPage"
-             Title="Payment Management">
+             x:Class="Mod08.View.PaymentPage">
 
     <!-- Bind to ViewModel -->
     <ContentPage.BindingContext>
@@ -121,17 +120,17 @@
 
                 <!-- Year Section -->
                 <Grid ColumnDefinitions="*,*"
-          BackgroundColor="#E0E0E0"
-          Padding="10"
-          Margin="0,0,0,10">
+                      BackgroundColor="#E0E0E0"
+                      Padding="10"
+                      Margin="0,0,0,10">
                     <Label Text="Year:" 
-               FontAttributes="Bold" 
-               TextColor="#555" 
-               Grid.Column="0" 
-               VerticalOptions="Center" />
+                           FontAttributes="Bold" 
+                           TextColor="#555" 
+                           Grid.Column="0" 
+                           VerticalOptions="Center" />
                     <Label Text="{Binding SelectedUser.CourseYear}" 
-               Grid.Column="1" 
-               VerticalOptions="Center" />
+                           Grid.Column="1" 
+                           VerticalOptions="Center" />
                 </Grid>
             </VerticalStackLayout>
 

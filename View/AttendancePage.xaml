@@ -4,8 +4,7 @@
              xmlns:vm="clr-namespace:Mod08.ViewModel"
              xmlns:converters="clr-namespace:Mod08.Converters"
              x:Class="Mod08.View.AttendancePage"
-             x:Name="AttendancePageReference" 
-            Title="Attendance Management">
+             x:Name="AttendancePageReference" >
 
     <!-- Registering the Converter -->
     <ContentPage.Resources>
