@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Mod08.ViewModel"
-             x:Class="Mod08.View.PaymentPage">
+             x:Class="Mod08.View.PaymentPage"
+             BackgroundColor="#2C2F33">
 
     <!-- Bind to ViewModel -->
     <ContentPage.BindingContext>
@@ -11,166 +12,248 @@
 
     <!-- Toolbar -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Back"
-                     Command="{Binding BackCommand}" />
-        <ToolbarItem Text="Logout"
-                     Command="{Binding LogoutCommand}" />
+        <ToolbarItem 
+            Text="Navigation Page"
+            Priority="0" 
+            Order="Primary"
+            Command="{Binding BackCommand}" 
+            IconImageSource="back_icon.png" />
+        <ToolbarItem 
+             Text="Logout"
+             Priority="0" 
+             Order="Primary"
+             Command="{Binding LogoutCommand}" 
+             IconImageSource="back_icon.png" />
     </ContentPage.ToolbarItems>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <Grid Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="5" />
+                <!-- Column for the separator -->
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
 
-            <!-- Page Header -->
-            <Label Text="Student Ledger"
-                   FontSize="22"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#2B579A" />
+            <!-- Left Section (Payment Details) -->
+            <StackLayout BackgroundColor="#4D2D26" Padding="20" Grid.Column="0" Spacing="15">
 
-            <!-- Load Users Button -->
-            <Button Text="Load Users"
-                    Command="{Binding LoadUserCommand}"
-                    BackgroundColor="#2B579A"
-                    TextColor="White"
-                    FontSize="16"
-                    HeightRequest="50" />
+                <!-- Page Header -->
+                <Frame BackgroundColor="#4D2D26" CornerRadius="10" Padding="20" HasShadow="True">
+                    <Label Text="Student Ledger"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#FFD700" />
+                </Frame>
 
-            <!-- Search and Filter -->
-            <Grid ColumnDefinitions="*,*" Margin="0,5,0,5">
-                <Picker Title="Filter by Course"
-                        ItemsSource="{Binding Courses}"
-            SelectedItem="{Binding FilterCourse}"
-            FontSize="14"
-            BackgroundColor="#E0E0E0"
-                        VerticalOptions="Center"
-                        HorizontalOptions="Fill"
-                        Grid.Column="0" />  
-                <Entry Placeholder="Search User"
-                       Text="{Binding SearchText}"
-                       FontSize="14"
-                       BackgroundColor="#F3F4F6"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Fill"
-                       HeightRequest="40"
-                       Grid.Column="1" />
-            </Grid>
+                <!-- Load Users Button -->
+                <Button Text="Load Users"
+                        Command="{Binding LoadUserCommand}"
+                        BackgroundColor="#FFD700"
+                        TextColor="#2C2F33"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        CornerRadius="25"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,10,0,0" />
+
+                <!-- Filter Section -->
+                <StackLayout Spacing="10">
+                    <Label Text="Filter by Course"
+                           TextColor="White"
+                           FontSize="16" />
+
+                    <!-- Search and Filter Section -->
+                    <Grid ColumnDefinitions="*,*"
+                          BackgroundColor="#4D2D26">
+                        
+                        <Picker ItemsSource="{Binding Courses}"
+                                SelectedItem="{Binding FilterCourse}"
+                                FontSize="16"
+                                BackgroundColor="#2C2F33"
+                                TextColor="White"
+                                Grid.Column="0"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Fill" />
+                        
+                        <Entry Placeholder="Search User"
+                               Text="{Binding SearchText}"
+                               FontSize="16"
+                               BackgroundColor="#2C2F33"
+                               TextColor="White"
+                               HeightRequest="40"
+                               Grid.Column="1"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill" />
+                    </Grid>
+                </StackLayout>
+
+                <!-- Users List -->
+                <CollectionView ItemsSource="{Binding Users}" SelectionMode="None" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#2C2F33"
+                                   CornerRadius="10"
+                                   Padding="15"
+                                   Margin="0,5,0,5"
+                                   HasShadow="True">
+                                
+                                <StackLayout Spacing="10">
+                                    
+                                    <Label Text="{Binding FullName}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#FFD700"
+                                           HorizontalOptions="Start" />
+                                    
+                                    <Label Text="{Binding Course}"
+                                           FontSize="14"
+                                           TextColor="#CCCCCC"
+                                           HorizontalOptions="Start" />
+
+                                    <!-- Load Ledger Button -->
+                                    <Button Text="Load Ledger"
+                                            Command="{Binding BindingContext.LoadLedgerCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                            CommandParameter="{Binding ID}"
+                                            BackgroundColor="#FFD700"
+                                            TextColor="#2C2F33"
+                                            FontSize="18"
+                                            FontAttributes="Bold"
+                                            HeightRequest="40"
+                                            CornerRadius="20"
+                                            HorizontalOptions="FillAndExpand"
+                                            Margin="0,10,0,0" />
+                                    
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </StackLayout>
 
 
-            <!-- Users List -->
-            <CollectionView ItemsSource="{Binding Users}" SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BackgroundColor="#F3F4F6"
-                               Padding="10"
-                               Margin="5">
-                            <StackLayout Spacing="5">
-                                <Label Text="{Binding FullName}" FontSize="14" FontAttributes="Bold" TextColor="#333" />
-                                <!--<Label Text="{Binding Lastname}" FontSize="14" TextColor="#555" />-->
-                                <Label Text="{Binding Course}" FontSize="12" TextColor="#666" />
-                                <Button Text="Load Ledger"
-                                        Command="{Binding BindingContext.LoadLedgerCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                        CommandParameter="{Binding ID}"
-                                        BackgroundColor="#4CAF50"
-                                        TextColor="White"
-                                        FontSize="14"
-                                        Margin="0,5,0,0" />
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <!-- Vertical Separator -->
+            <BoxView Color="#FFD700"
+                     VerticalOptions="FillAndExpand"
+                     HorizontalOptions="Fill"
+                     Grid.Column="1"
+                     WidthRequest="6" />
 
+            <!-- Right Section (Selected User and Ledger Entries) -->
+            <StackLayout BackgroundColor="#2C2F33" Padding="20" Grid.Column="2">
 
-            <VerticalStackLayout Spacing="10">
                 <!-- Selected User Details -->
-                <Label  Text="Selected User Ledger"
-                      FontAttributes="Bold"
-                      FontSize="18"
-                      TextColor="#2B579A"
-                      Margin="0,20,0,10" />
-                <!-- Name Section -->
-                <Grid ColumnDefinitions="*,*"
-                      BackgroundColor="#E0E0E0"
-                      Padding="10"
-                      Margin="0,0,0,10">
-                    <Label Text="Name:" 
-                           FontAttributes="Bold" 
-                           TextColor="#555" 
-                           Grid.Column="0" 
-                           VerticalOptions="Center" />
-                    <Label Text="{Binding SelectedUser.FullName}" 
-                           Grid.Column="1" 
-                           VerticalOptions="Center" />
-                </Grid>
+                <Frame BackgroundColor="#4D2D26" CornerRadius="10" Padding="15" Margin="0,20,0,10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Selected User Ledger"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="#FFD700" />
 
-                <!-- Course Section -->
-                <Grid ColumnDefinitions="*,*"
-                      BackgroundColor="#E0E0E0"
-                      Padding="10"
-                      Margin="0,0,0,10">
-                    <Label Text="Course:" 
-                           FontAttributes="Bold" 
-                           TextColor="#555" 
-                           Grid.Column="0" 
-                           VerticalOptions="Center" />
-                    <Label Text="{Binding SelectedUser.Course}" 
-                           Grid.Column="1" 
-                           VerticalOptions="Center" />
-                </Grid>
-
-                <!-- Year Section -->
-                <Grid ColumnDefinitions="*,*"
-                      BackgroundColor="#E0E0E0"
-                      Padding="10"
-                      Margin="0,0,0,10">
-                    <Label Text="Year:" 
-                           FontAttributes="Bold" 
-                           TextColor="#555" 
-                           Grid.Column="0" 
-                           VerticalOptions="Center" />
-                    <Label Text="{Binding SelectedUser.CourseYear}" 
-                           Grid.Column="1" 
-                           VerticalOptions="Center" />
-                </Grid>
-            </VerticalStackLayout>
-
-
-            <!-- Ledger Table Headers -->
-            <Grid ColumnDefinitions="*,*,*,*,*"
-                  BackgroundColor="#D3D3D3"
-                  Padding="5"
-                  Margin="0,20,0,5">
-                <Label Text="Date Paid" FontAttributes="Bold" HorizontalTextAlignment="Center" />
-                <Label Text="Particulars" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="1" />
-                <Label Text="Credit" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="2" />
-                <Label Text="Balance" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="3" />
-                <Label Text="Old Accounts" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="4" />
-            </Grid>
-
-            <!-- Ledger Entries -->
-            <CollectionView ItemsSource="{Binding LedgerEntries}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="*,*,*,*,*"
-                              Padding="5">
-                            <Label Text="{Binding DatePaid, StringFormat='{0:MM/dd/yyyy}'}" HorizontalTextAlignment="Center" />
-                            <Label Text="{Binding Particulars}" HorizontalTextAlignment="Center" Grid.Column="1" />
-                            <Label Text="{Binding Credit, StringFormat='{0:C}'}" HorizontalTextAlignment="Center" Grid.Column="2" />
-                            <Label Text="{Binding Balance, StringFormat='{0:C}'}" HorizontalTextAlignment="Center" Grid.Column="3" />
-                            <Label Text="{Binding OldAccounts, StringFormat='{0:C}'}" HorizontalTextAlignment="Center" Grid.Column="4" />
+                        <!-- Name Section -->
+                        <Grid ColumnDefinitions="*,*"
+                              BackgroundColor="#2C2F33"
+                              Padding="10"
+                              Margin="0,0,0,10">
+                            <Label Text="Name:"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   Grid.Column="0"
+                                   VerticalOptions="Center" />
+                            <Label Text="{Binding SelectedUser.FullName}"
+                                   TextColor="#CCCCCC"
+                                   FontAttributes="Bold"
+                                   Grid.Column="1"
+                                   VerticalOptions="Center" />
                         </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
 
-            <!-- Back Button --><!--
-            <Button Text="Back"
-                    BackgroundColor="#40444B"
-                    TextColor="White"
-                    FontSize="16"
-                    HeightRequest="50"
-                    HorizontalOptions="Center"
-                    Command="{Binding BackCommand}" />-->
-        </VerticalStackLayout>
+                        <!-- Course Section -->
+                        <Grid ColumnDefinitions="*,*"
+                              BackgroundColor="#2C2F33"
+                              Padding="10"
+                              Margin="0,0,0,10">
+                            <Label Text="Course:"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   Grid.Column="0"
+                                   VerticalOptions="Center" />
+                            <Label Text="{Binding SelectedUser.Course}"
+                                   TextColor="#CCCCCC"
+                                   FontAttributes="Bold"
+                                   Grid.Column="1"
+                                   VerticalOptions="Center" />
+                        </Grid>
+
+                        <!-- Year Section -->
+                        <Grid ColumnDefinitions="*,*"
+                              BackgroundColor="#2C2F33"
+                              Padding="10"
+                              Margin="0,0,0,10">
+                            <Label Text="Year:"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   Grid.Column="0"
+                                   VerticalOptions="Center" />
+                            <Label Text="{Binding SelectedUser.CourseYear}"
+                                   TextColor="#CCCCCC"
+                                   FontAttributes="Bold"
+                                   Grid.Column="1"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Ledger Table Headers -->
+                <Grid ColumnDefinitions="*,*,*,*,*"
+                      BackgroundColor="#4D2D26"
+                      Padding="10">
+                    <Label Text="Date Paid" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#FFD700" />
+                    <Label Text="Particulars" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#FFD700" Grid.Column="1" />
+                    <Label Text="Credit" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#FFD700" Grid.Column="2" />
+                    <Label Text="Balance" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#FFD700" Grid.Column="3" />
+                    <Label Text="Old Accounts" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#FFD700" Grid.Column="4" />
+                </Grid>
+
+                <!-- Ledger Entries -->
+                <CollectionView ItemsSource="{Binding LedgerEntries}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,*,*,*,*"
+                                  Padding="10"
+                                  BackgroundColor="#2C2F33"
+                                  Margin="0,5,0,5">
+                                <Label Text="{Binding DatePaid, StringFormat='{0:MM/dd/yyyy}'}"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="White" />
+                                <Label Text="{Binding Particulars}"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="White"
+                                       Grid.Column="1" />
+                                <Label Text="{Binding Credit, StringFormat='{0:C}'}"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="White"
+                                       Grid.Column="2" />
+                                <Label Text="{Binding Balance, StringFormat='{0:C}'}"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="White"
+                                       Grid.Column="3" />
+                                <Label Text="{Binding OldAccounts, StringFormat='{0:C}'}"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="White"
+                                       Grid.Column="4" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </StackLayout>
+
+        </Grid>
     </ScrollView>
 </ContentPage>
